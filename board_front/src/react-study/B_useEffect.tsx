@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 /*
 ! useEffect
@@ -34,11 +34,27 @@ export default function B_useEffect() {
   
   const [count, setCount] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 타이머 효과를 구현
+    let interval: NodeJS.Timeout | undefined;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setCount(prevCount => prevCount + 1);
+      }, 1000); // 1000밀리초(1초)에 한 번씩 첫 번째 인자의 함수 실행
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning]);
   
+  const handleButtonClick = () => {
+    setIsRunning(prevIsRunning => !prevIsRunning);
+  }
+
   return (
     <div>
       <p>Timer: {count} seconds</p>
-      <button>
+      <button onClick={handleButtonClick}>
         {/* 실행 중이면 'Stop'버튼, 실행 중이 아니면 'Start'버튼 */}
         {isRunning ? 'Stop' : 'Start'}
       </button>
