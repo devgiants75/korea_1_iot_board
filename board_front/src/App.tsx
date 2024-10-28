@@ -10,6 +10,7 @@ import Main from './views/Main';
 import Authentication from './views/Authentication';
 import Board from './views/Board';
 import User from './views/User';
+import ReactStudy from './views/ReactStudy';
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
           <Route path={USER_PATH} element={<User />} />
 
           {/* 리액트 학습 */}
-          <Route path={REACT_STUDY_PATH} element={<UseState />} />
+          <Route path={REACT_STUDY_PATH} element={<ReactStudy />} />
         </Route>
       </Routes>
     </>
