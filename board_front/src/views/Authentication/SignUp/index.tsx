@@ -32,7 +32,7 @@ export default function SignUp() {
   const [errors, setErrors] = useState<Errors>({});
 
   // useNaviage() 훅: 페이지 전환 기능을 사용
-  const naviagate = useNavigate();
+  const navigate = useNavigate();
 
   //! === 이벤트 핸들러 === //
   // 입력 필드 변경 이벤트 핸들러
@@ -57,7 +57,7 @@ export default function SignUp() {
         const response = await axios.post(`http://localhost:8080/api/v1/auth/signUp`, userInfo);
 
         if (response.data) {
-          naviagate('/');
+          navigate('/');
         } else {
           setErrors(prev => ({
             ...prev,
