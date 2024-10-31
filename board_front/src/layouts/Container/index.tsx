@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom';
 import { AUTH_PATH } from '../../constants';
 import Footer from '../Footer';
+import Header from '../Header';
 
 /*
 ! Outlet 컴포넌트
@@ -24,7 +25,8 @@ export default function Container() {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
+      <hr />
 
       {/* 자식 컴포넌트가 해당 위치에서 렌더링 */}
       <Outlet /> 
