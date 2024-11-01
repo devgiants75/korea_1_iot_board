@@ -6,7 +6,7 @@ import { create } from "zustand";
 
 //* interface *//
 //# 장바구니 아이템의 interface 정의 //
-interface CartItem {
+export interface CartItem {
   id: number; // 장바구니 아이템들의 고유값
   name: string; // 상품명
   price: number; // 상품 가격
