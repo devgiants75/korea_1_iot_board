@@ -6,13 +6,13 @@ export const MAIN_URL = `http://localhost:8080/api/v1`;
 const TASK_API_URL = `${MAIN_URL}/todos`;
 
 export const fetchTasks = async () => {
-  const response = await axios.get<Task[]>(TASK_API_URL);
-  return response.data;
+  const response = await axios.get<{ data: Task[] }>(TASK_API_URL);
+  return response.data.data;
 };
 
 export const createTask = async (task: string) => {
-  const response = await axios.post<Task>(TASK_API_URL, { task, status: false });
-  return response.data;
+  const response = await axios.post<{ data: Task }>(TASK_API_URL, { task, status: false });
+  return response.data.data;
 };
 
 export const updateTaskStatus = async (id: number, status: boolean) => {
