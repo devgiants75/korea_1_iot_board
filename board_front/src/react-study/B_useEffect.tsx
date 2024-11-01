@@ -34,6 +34,8 @@ export default function B_useEffect() {
   
   const [count, setCount] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [toggleData, setToggleData] = useState<boolean>(false);
+  console.log(toggleData);
 
   useEffect(() => {
     // 타이머 효과를 구현
@@ -51,6 +53,20 @@ export default function B_useEffect() {
     setIsRunning(prevIsRunning => !prevIsRunning);
   }
 
+  const handleToggleButtonClick = () => {
+    setToggleData(prevData => !prevData);
+  }
+
+  // useEffect의 인자값
+  // 첫 번째 인자 (effect): 부수 효과 - 통신(요청), 데이터 변경 시 동작될 효과
+  // 두 번째 인자 (deps): 의존성 배열 
+  //    - 빈 배열일 경우 마운팅 시에만! 효과 발생
+  //    - 배열에 요소가 있는 경우 해당 값의 상태 변경 시 효과가 재발생
+
+  useEffect(() => {
+    console.log('useEffect 화면 출력');
+  }, [toggleData]);
+
   return (
     <div>
       <p>Timer: {count} seconds</p>
@@ -58,6 +74,17 @@ export default function B_useEffect() {
         {/* 실행 중이면 'Stop'버튼, 실행 중이 아니면 'Start'버튼 */}
         {isRunning ? 'Stop' : 'Start'}
       </button>
+
+      <div style={{
+        backgroundColor: 'pink',
+        padding: '20px'
+      }}>
+        <button
+          onClick={handleToggleButtonClick}
+        >
+          상태 변화 버튼
+        </button>
+      </div>
     </div>
   )
 }
