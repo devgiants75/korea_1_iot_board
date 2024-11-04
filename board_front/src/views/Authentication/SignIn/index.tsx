@@ -57,7 +57,7 @@ export default function SignIn() {
   //# function: 로그인 성공 시 실행되는 함수 //
   // 로그인 성공 시 실행
   // : 서버 응답이 성공일 경우 토큰과 사용자 정보를 저장 & 페이지 이동
-  const SignInSuccessResponse = (data: SignInResponseDto) => {
+  const signInSuccessResponse = (data: SignInResponseDto) => {
     if (data) {
       const { token, exprTime, user } = data;
       setToken(token, exprTime);
@@ -109,7 +109,7 @@ export default function SignIn() {
       const response = await axios.post(`http://localhost:8080/api/v1/auth/signIn`, credentials);
 
       if (response.data) {
-        SignInSuccessResponse(response.data.data);
+        signInSuccessResponse(response.data.data);
       }
 
     } catch {
