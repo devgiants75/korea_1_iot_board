@@ -76,7 +76,8 @@ export default function SignIn() {
     const expires = new Date(Date.now() + exprTime);
     setCookies('token', token, {
       path: '/',
-      expires
+      expires,
+      sameSite: 'lax'
     });
   };
 

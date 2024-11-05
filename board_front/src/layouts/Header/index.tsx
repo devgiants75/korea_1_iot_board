@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useAuthStore from '../../stores/auth.store';
 import { Box, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -8,13 +8,21 @@ import useThemeStore from '../../stores/theme.store';
 export default function Header() {
   //* state *//
   //# 사용자의 인증 상태를 전역 상태 관리 //
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, logout } = useAuthStore();
 
   //# 전체 테마의 상태를 전역 상태 관리 //
   const { theme, toggleTheme } = useThemeStore();
 
   //# 사용자의 토큰을 관리하는 쿠키 //
-  const [, setCookies] = useCookies(['token']);
+  const [cookies, setCookies] = useCookies(['token']);
+
+  //* Effect *//
+  //# 렌더링 시 토큰 값 확인하여 인증 상태 수정 //
+  useEffect(() => {
+    if (!cookies.token) {
+      logout();
+    }
+  }, [cookies.token, logout]);
 
   //* Event Handler *//
   //# event handler: 로그아웃 버튼 클릭 시 이벤트 핸들러 //
