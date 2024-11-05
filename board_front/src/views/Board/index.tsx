@@ -1,7 +1,11 @@
 import React from 'react'
+import Pagination from '../../components/Pagination'
 
 export default function Board() {
   return (
-    <div>Board</div>
+    <div>
+      게시판 목록 화면
+      <Pagination />
+    </div>
   )
 }
