@@ -3,7 +3,7 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-import { AiOutlineLeft } from 'react-icons/ai';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 
 interface PaginationProp {
   pageList: number[]; // 페이지 번호 목록 배열
@@ -70,16 +70,20 @@ const pageStyle = (isActive: boolean) => css`
 // react-icons 설치 명령어
 // : npm i react-icons
 
-export default function Pagination() {
-  const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const currentPage = 3;
-
+export default function Pagination({
+  pageList,
+  currentPage,
+  handlePageClick,
+  handlePreSectionClick,
+  handleNextSectionClick
+}: PaginationProp) {
   return (
     <div css={paginationBoxStyle}>
       {/* Pagination 컴포넌트를 감싸는 상자 */}
 
       <button 
         css={buttonStyle}
+        onClick={handlePreSectionClick}
         // 이전 버튼에 아이콘 설정
       >
         <AiOutlineLeft size={24} />
@@ -92,6 +96,7 @@ export default function Pagination() {
           <div
             key={page}
             css={pageStyle(page === currentPage)}
+            onClick={() => page !== currentPage && handlePageClick(page)}
           >
             {page}
           </div>
@@ -101,7 +106,10 @@ export default function Pagination() {
       <button 
         css={buttonStyle}
         // 다음 버튼에 아이콘 설정
-      />
+        onClick={handleNextSectionClick}
+      >
+        <AiOutlineRight size={24} />
+      </button>
     </div>
   )
 }
