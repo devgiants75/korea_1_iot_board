@@ -15,7 +15,7 @@ export default function Board() {
   const [totalPages, setTotalPages] = useState<number>(1);
 
   const fetchPosts = async (page: number) => {
-    const response = await axios.get(`/api/v1/posts?page=${page}&size=5`);
+    const response = await axios.get(`http://localhost:8080/api/v1/posts?page=${page}&size=5`);
     const data = response.data.data;
     setPosts(data.content);
     setTotalPages(data.totalPages);
