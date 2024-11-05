@@ -3,6 +3,8 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+import { AiOutlineLeft } from 'react-icons/ai';
+
 interface PaginationProp {
   pageList: number[]; // 페이지 번호 목록 배열
   currentPage: number; // 현재 페이지 번호
@@ -23,13 +25,16 @@ const paginationBoxStyle = css`
 `;
 
 // 버튼 스타일: 아이콘과 호버/포커스 효과 포함
-const buttonStyle = (icon: string) => css`
+const buttonStyle = css`
   width: 40px;
   height: 40px;
-  background-image: url(${icon});
-  background-size: cover;
-  background-position: center;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border: none;
+  background-color: transparent;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -62,19 +67,23 @@ const pageStyle = (isActive: boolean) => css`
   }
 `;
 
-export default function Pagination() {
-  const pageList = [1, 2, 3, 4, 5];
-  const currentPage = 3;
+// react-icons 설치 명령어
+// : npm i react-icons
 
+export default function Pagination() {
+  const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const currentPage = 3;
 
   return (
     <div css={paginationBoxStyle}>
       {/* Pagination 컴포넌트를 감싸는 상자 */}
 
       <button 
-        css={buttonStyle('')}
+        css={buttonStyle}
         // 이전 버튼에 아이콘 설정
-      />
+      >
+        <AiOutlineLeft size={24} />
+      </button>
 
       <div css={pageListStyle}>
         {/* 페이지 번호 목록을 담는 컨테이너 */}
@@ -90,7 +99,7 @@ export default function Pagination() {
       </div>
 
       <button 
-        css={buttonStyle('')}
+        css={buttonStyle}
         // 다음 버튼에 아이콘 설정
       />
     </div>
