@@ -18,8 +18,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "article_id")
-    private Long articleId;
+    @JoinColumn(name = "article_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Article article;
 
     @Column(nullable = false, name = "commenter_id")
     private Long commenterId;
