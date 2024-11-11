@@ -10,4 +10,5 @@ public interface ArticleService {
     ResponseDto<ArticleResponseDto> updateArticle(Long authorId, Long id, ArticleUpdateRequestDto dto);
     ResponseDto<Void> deleteArticle(Long authorId, Long id);
     ResponseDto<ArticleResponseDto> getArticle(Long id);
+    ResponseDto<ArticleResponseDto> getEditableArticle(Long authorId, Long id);
 }

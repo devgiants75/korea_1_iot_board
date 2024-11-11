@@ -123,4 +123,32 @@ public class ArticleServiceImpl implements ArticleService {
 
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
+
+    @Override
+    public ResponseDto<ArticleResponseDto> getEditableArticle(Long authorId, Long id) {
+        ArticleResponseDto data = null;
+        Long articleId = id;
+
+        try {
+            Optional<Article> optionalArticle = articleRepository.findById(articleId);
+
+            if (optionalArticle.isEmpty()) {
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_POST);
+            }
+
+            Article article = optionalArticle.get();
+
+            if (!article.getAuthorId().equals(authorId)) {
+                return ResponseDto.setFailed(ResponseMessage.NO_PERMISSION);
+            }
+
+            data = new ArticleResponseDto(article);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
 }
