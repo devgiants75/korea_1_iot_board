@@ -19,9 +19,11 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    private static final String ARTICLE_GET = "/{id}";
+    private static final String ARTICLE_GET_BY_ID = "/{id}";
     private static final String ARTICLE_PUT = "/{id}";
     private static final String ARTICLE_DELETE = "/{id}";
+
+    private static final String ARTICLE_GET_EDITABLE_BY_ID = "/{id}/edit";
 
     @PostMapping
     public ResponseEntity<ResponseDto<ArticleResponseDto>> createArticle(
@@ -58,10 +60,21 @@ public class ArticleController {
         return ResponseEntity.status(status).body(response);
     }
 
-    @GetMapping(ARTICLE_GET)
+    @GetMapping(ARTICLE_GET_BY_ID)
     public ResponseEntity<ResponseDto<ArticleResponseDto>> getArticle(@PathVariable Long id) {
         ResponseDto<ArticleResponseDto> response = articleService.getArticle(id);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @GetMapping(ARTICLE_GET_EDITABLE_BY_ID)
+    public ResponseEntity<ResponseDto<ArticleResponseDto>> getEditableArticle(
+            @AuthenticationPrincipal String userId,
+            @PathVariable Long id
+    ) {
+        Long authorId = Long.parseLong(userId);
+        ResponseDto<ArticleResponseDto> response = aricleService.getEditableArticle(authorId, id);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.FORBIDDEN;
         return ResponseEntity.status(status).body(response);
     }
 }
