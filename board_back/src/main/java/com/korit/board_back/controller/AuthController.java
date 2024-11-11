@@ -8,7 +8,6 @@ import com.korit.board_back.dto.auth.request.SignUpRequestDto;
 import com.korit.board_back.dto.auth.response.LoginResponseDto;
 import com.korit.board_back.dto.auth.response.SignUpResponseDto;
 import com.korit.board_back.service.AuthService;
-import com.korit.board_back.service.implement.AuthServiceImplement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
