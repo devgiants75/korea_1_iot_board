@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import * as s from './style';
 import { useNavigate } from 'react-router-dom';
 

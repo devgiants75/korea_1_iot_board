@@ -4,6 +4,7 @@ import RootContainer from './components/rootContainer/RootContainer'
 import Todo from './views/Todo';
 import { Route, Routes } from 'react-router-dom';
 import MyPage from './views/myPage/MyPage';
+import Chart from './views/Chart/Chart';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Routes>
           <Route path='/todo' element={ <Todo /> } />
           <Route path='/' element={ <MyPage /> } />
+          <Route path='/chart' element={ <Chart /> } />
         </Routes>
       </RootContainer>
     </RootLayout>

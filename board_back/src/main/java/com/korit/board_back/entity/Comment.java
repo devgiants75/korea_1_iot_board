@@ -19,6 +19,7 @@ public class Comment {
     private Long id;
 
     @JoinColumn(name = "article_id", nullable = false)
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Article article;
 

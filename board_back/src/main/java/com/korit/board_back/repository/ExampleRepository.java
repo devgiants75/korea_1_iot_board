@@ -29,7 +29,7 @@ public interface ExampleRepository extends JpaRepository {
             "JOIN Order o ON r.order.id = o.id " +
             "WHERE o.store.id = :storeId " +
             "GROUP BY r.rating")
-    List<RatingStatistics> findReviewCountByRating(@Param("storeId") Long storeId);
+    List<Object[]> findReviewStatisticsByStoreId(@Param("storeId") Long storeId);
 
     /*
         SQL 쿼리문의 경우
