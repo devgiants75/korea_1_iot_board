@@ -1,6 +1,7 @@
 package com.korit.board_back.repository;
 
 import com.korit.board_back.dto.RatingStatistics;
+import com.korit.board_back.entity.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExampleRepository extends JpaRepository {
+public interface ExampleRepository extends JpaRepository<Example, Long> {
     /*
         @Query 구문
         : Spring Data JPA에서
@@ -24,7 +25,7 @@ public interface ExampleRepository extends JpaRepository {
         EX) 특정 가게의 각 평점별 리뷰 수 반환
     */
 
-    @Query("SELECT r.rating, COUNT(r.id) AS reviewCount " +
+    @Query("SELECT r.rating AS rating, COUNT(r.id) AS reviewCount " +
             "FROM Review r " +
             "JOIN Order o ON r.order.id = o.id " +
             "WHERE o.store.id = :storeId " +

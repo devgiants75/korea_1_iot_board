@@ -12,15 +12,16 @@ interface Post {
 
 export default function Board() {
   const [posts, setPosts] = useState<Post[]>([]);
+  //! ============================================ //
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [cookies] = useCookies(['token']);
   
+  //! ============================================ //
   const fetchPosts = async (page: number) => {
     // 저장된 토큰 가져오기
     const token = cookies.token;
     
-
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/posts?page=${page}&size=5`, {
         // 헤더에 토큰 포함하여 전달
@@ -38,6 +39,7 @@ export default function Board() {
     }
   }
 
+  //! ============================================ //
   useEffect(() => {
     fetchPosts(currentPage);
   }, [currentPage]);

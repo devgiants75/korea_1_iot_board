@@ -14,7 +14,7 @@ public class ExampleService {
 
     private final ExampleRepository exampleRepository;
 
-    public List<ReviewStatisticsResponseDto> getReviewStatistics (Long storeId) {
+    public List<ReviewStatisticsResponseDto> getReviewStatistics(Long storeId) {
 
         List<ReviewStatisticsResponseDto> data = null;
 
@@ -32,4 +32,5 @@ public class ExampleService {
 
         return data;
     }
+
 }

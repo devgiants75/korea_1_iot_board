@@ -17,6 +17,8 @@ public interface UserService {
     * */
     ResponseDto<UserResponseDto> getUserInfo(String userId);
 
+    ResponseDto<UserResponseDto> findUserByEmail(String email);
+
     /*
      * 사용자 정보를 수정하는 메서드
      * @param - userId 현재 인증된 사용자의 ID

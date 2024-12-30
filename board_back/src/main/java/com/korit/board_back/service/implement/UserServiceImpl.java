@@ -42,6 +42,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseDto<UserResponseDto> findUserByEmail(String email) {
+        UserResponseDto data = null;
+
+        try {
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("등록된 이메일이 없습니다."));
+
+            data = new UserResponseDto(user);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_USER);
+        }
+
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    @Override
     public ResponseDto<UserResponseDto> updateUser(String userId, UpdateUserRequestDto dto) {
         UserResponseDto data = null;
         String email = dto.getEmail();

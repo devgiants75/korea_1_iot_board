@@ -27,6 +27,13 @@ public class UserController {
         return ResponseEntity.status(status).body(response);
     }
 
+    @GetMapping("/find-id")
+    public ResponseEntity<ResponseDto<UserResponseDto>> findUserId(@RequestParam String email) {
+        ResponseDto<UserResponseDto> response = userService.findUserByEmail(email);
+        HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return ResponseEntity.status(status).body(response);
+    }
+
     @PutMapping
     public ResponseEntity<ResponseDto<UserResponseDto>> updateUser(
             @AuthenticationPrincipal String userId,

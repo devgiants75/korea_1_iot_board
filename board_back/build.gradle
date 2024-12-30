@@ -20,6 +20,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	// 스프링 시큐리티 사용 스타터
 	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.springframework.boot:spring-boot-starter-mail')
 
 	// 프로젝트 유효성 검사를 위한 의존성 입력
 	implementation('jakarta.validation:jakarta.validation-api:3.0.2')
