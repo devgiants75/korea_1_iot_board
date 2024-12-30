@@ -60,4 +60,4 @@ __pycache__/
 *.orig
 
 # Application properties
-application.properties
+/src/main/resources/application.properties
