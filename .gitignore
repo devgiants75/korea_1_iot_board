@@ -58,3 +58,6 @@ __pycache__/
 
 # Git merge conflict files
 *.orig
+
+# Application properties
+application.properties
