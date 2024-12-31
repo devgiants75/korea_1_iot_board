@@ -2,6 +2,7 @@ package com.korit.board_back.service.implement;
 
 import com.korit.board_back.provider.JwtProvider;
 import com.korit.board_back.service.MailService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,12 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public String verifyEmail(String token) {
-        return "";
+        try {
+            String username = jwtProvider.getUsernameFromEmailJwt(token);
+            System.out.println("이메일 인증이 완료되었습니다. 사용자명: " + username);
+            return username;
+        } catch (ExpiredJwtException e) {
+            return "토큰이 만료되었습니다. 다시 진행해주세요.";
+        }
     }
 }
