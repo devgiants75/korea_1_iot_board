@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedicineRequestDto {
-    private String sourceApi;
+public class MedicineSearchByNameRequestDto {
     private String medicineName;
-
-
 }

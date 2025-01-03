@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Task } from "../types";
-import { Cookies } from "react-cookie";
 
 export const MAIN_URL = `http://localhost:8080/api/v1`;
 
@@ -23,3 +22,13 @@ export const updateTaskStatus = async (id: number, status: boolean) => {
 export const deleteTask = async (id: number) => {
   await axios.delete(`${TASK_API_URL}/${id}`);
 };
+
+//! chat 설정 //
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export default api;

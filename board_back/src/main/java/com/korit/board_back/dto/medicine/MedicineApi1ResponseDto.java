@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MedicineApi1ResponseDto extends MedicineResponseDto {
 
+    String ITEM_NAME;
     public MedicineApi1ResponseDto(String sourceApi, String medicineName) {
         super(sourceApi, medicineName);
     }

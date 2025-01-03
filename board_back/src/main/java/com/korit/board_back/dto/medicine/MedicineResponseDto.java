@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicineResponseDto {
-    private String sourceApi;
-    private String medicineName;
+    private String sourceApi; // API 구분
+    private String medicineName; // 약품명 (검색한 약품 이름)
 }

@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MedicineApi2ResponseDto extends MedicineResponseDto{
+public class MedicineApi2ResponseDto extends MedicineResponseDto {
 
+    String itemName;
     public MedicineApi2ResponseDto(String sourceApi, String medicineName) {
         super(sourceApi, medicineName);
     }
