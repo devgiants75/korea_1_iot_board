@@ -18,26 +18,22 @@ const ChatRoom: React.FC<{ roomId: number; sender: string }> = ({ roomId, sender
   const subscriptionRef = React.useRef<StompSubscription | null>(null);
 
   useEffect(() => {
-    const setupWebSocket = async () => {
+    const fetchHistoryAndSubscribe = async () => {
+      console.log('object');
       try {
-        console.log('chatRoom start');
-        if (!connected) {
-          console.error('WebSocket is not connected.');
-          return;
-        }
-        console.log('chatRoom connected');
-
         // 채팅 히스토리 가져오기
         const response = await axios.get(`http://localhost:4040/api/v1/chat/history/${roomId}`);
+        console.log(response.data.data);
         setMessages(response.data.data);
 
         // WebSocket 구독
-        const subscription = subscribe(`/topic/${roomId}`, (message) => {
-          const body: Message = JSON.parse(message.body);
-          setMessages((prev) => [...prev, body]);
-        });
+        if (connected) {
+          const subscription = subscribe(`/topic/${roomId}`, (message) => {
+            console.log(message);
+            const body: Message = JSON.parse(message.body);
+            setMessages((prev) => [...prev, body]);
+          });
 
-        if (subscription) {
           subscriptionRef.current = subscription;
         }
       } catch (error) {
@@ -45,34 +41,30 @@ const ChatRoom: React.FC<{ roomId: number; sender: string }> = ({ roomId, sender
       }
     };
 
-    setupWebSocket();
+    fetchHistoryAndSubscribe();
 
     return () => {
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe();
-        subscriptionRef.current = null;
-        console.log('Unsubscribed from WebSocket topic:', `/topic/${roomId}`);
-      }
+      // 구독 해제
+      subscriptionRef.current?.unsubscribe();
+      subscriptionRef.current = null;
     };
-  }, [roomId, connected]);
+  }, [roomId, connected, subscribe]);
 
-  const handleSendMessage = async () => {
-    if (!newMessage.trim()) {
-      console.error('Message cannot be empty.');
-      return;
-    }
+  const handleSendMessage = () => {
+    if (!newMessage.trim()) return;
 
     const messagePayload = {
       sender,
       message: newMessage,
     };
-    sendMessage(`/app/chat/${roomId}`, messagePayload);
+
+    sendMessage(`/app/chat/${roomId}`, messagePayload); // WebSocket으로 메시지 전송
     setNewMessage('');
   };
 
   return (
     <div>
-      <h2>Chat Room: {roomId}</h2>
+      <h2>채팅방: {roomId}</h2>
       <div style={{ maxHeight: '400px', overflowY: 'auto', border: '1px solid #ddd', padding: '10px' }}>
         {messages.map((msg) => (
           <div key={msg.id}>
@@ -80,16 +72,16 @@ const ChatRoom: React.FC<{ roomId: number; sender: string }> = ({ roomId, sender
           </div>
         ))}
       </div>
-      <div style={{ marginTop: '10px' }}>
+      <div>
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type your message..."
+          placeholder="메시지를 입력하세요..."
           style={{ width: '80%', padding: '5px' }}
         />
         <button onClick={handleSendMessage} style={{ width: '18%', marginLeft: '2%' }}>
-          Send
+          전송
         </button>
       </div>
     </div>

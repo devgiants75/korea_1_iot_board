@@ -13,8 +13,13 @@ import com.korit.board_back.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -158,9 +163,38 @@ public class AuthServiceImpl implements AuthService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
+    private final String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
 
+    @Override
+    public String loginWithNaver(String accessToken) {
+        try {
+            // 네이버 API 호출
+            RestTemplate restTemplate = new RestTemplate();
+            var headers = new org.springframework.http.HttpHeaders();
+            headers.set("Authorization", "Bearer " + accessToken);
+            var entity = new org.springframework.http.HttpEntity<>(headers);
 
+            String response = restTemplate.postForObject(naverUserInfoUrl, entity, String.class);
 
+            // 응답 데이터가 null 또는 비어 있는지 확인
+            if (response == null || response.isEmpty()) {
+                throw new RuntimeException("네이버 API 응답이 비어 있습니다.");
+            }
 
+            // JSON 파싱
+            JSONObject jsonResponse = new JSONObject(response);
+            JSONObject userInfo = jsonResponse.getJSONObject("response");
 
+            // 사용자 식별자 추출
+            String userId = userInfo.getString("id");
+
+            // JWT 생성
+            return jwtProvider.generateOAuthLoginToken(userId);
+
+        } catch (JSONException e) {
+            throw new RuntimeException("JSON 파싱 중 오류가 발생했습니다: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("네이버 로그인 처리 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
 }

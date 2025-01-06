@@ -50,6 +50,10 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	// 스프링 시큐리티 테스트를 위한 테스트 기능 제공
 	testImplementation('org.springframework.security:spring-security-test')
+
+	// OAuth2 로그인
+	implementation('com.fasterxml.jackson.core:jackson-databind')
+	implementation('org.json:json:20230227')
 }
 
 test {

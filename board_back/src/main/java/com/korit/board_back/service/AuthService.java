@@ -10,4 +10,5 @@ public interface AuthService {
 
     ResponseDto<SignUpResponseDto> signUp(SignUpRequestDto dto);
     ResponseDto<LoginResponseDto> login(LoginRequestDto dto);
+    String loginWithNaver(String token);
 }

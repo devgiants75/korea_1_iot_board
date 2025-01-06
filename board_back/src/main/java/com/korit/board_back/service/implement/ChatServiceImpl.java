@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService  {
+
     private final ChatRepository chatRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -40,9 +41,14 @@ public class ChatServiceImpl implements ChatService  {
 
     @Override
     public ResponseDto<Void> publishMessage(ChatMessageRequestDto dto) {
-        saveMessage(dto);
-        redisTemplate.convertAndSend("chatroom:" + dto.getRoomId(), dto);
-        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
+        try {
+            saveMessage(dto);
+            redisTemplate.convertAndSend("chatroom:" + dto.getRoomId(), dto);
+            return ResponseDto.setSuccess(ResponseMessage.SUCCESS, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("REDIS ERROR");
+        }
     }
 
     @Override

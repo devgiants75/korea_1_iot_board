@@ -55,6 +55,15 @@ public class JwtProvider {
                 .compact();
     }
 
+    public String generateOAuthLoginToken(String userId) {
+        return Jwts.builder()
+                .setSubject(userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     public String removeBearer(String bearerToken) {
         if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid JWT token format");

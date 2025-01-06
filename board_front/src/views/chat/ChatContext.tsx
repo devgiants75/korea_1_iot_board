@@ -12,19 +12,19 @@ const WebSocketContext = createContext<WebSocketContextType | null>(null);
 
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const stompClient = useRef<Client | null>(null);
-  const [connected, setConnected] = useState(false); 
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const socket = new SockJS('http://localhost:4040/ws');
+    const socket = new SockJS('http://localhost:4040/ws'); // WebSocket 엔드포인트
     stompClient.current = new Client({
       webSocketFactory: () => socket as WebSocket,
       debug: (msg) => console.log(msg),
       onConnect: () => {
-        console.log('Connected to WebSocket');
+        console.log('WebSocket 연결 성공');
         setConnected(true);
       },
       onDisconnect: () => {
-        console.log('Disconnected from WebSocket');
+        console.log('WebSocket 연결 해제');
         setConnected(false);
       },
     });
@@ -40,7 +40,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (stompClient.current && connected) {
       stompClient.current.publish({ destination, body: JSON.stringify(body) });
     } else {
-      console.error('WebSocket is not connected.');
+      console.error('WebSocket 연결 상태가 아닙니다.');
     }
   };
 
@@ -48,7 +48,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (stompClient.current && connected) {
       return stompClient.current.subscribe(destination, callback);
     }
-    console.error('WebSocket is not connected.');
+    console.error('WebSocket 연결 상태가 아닙니다.');
     return null;
   };
 
@@ -62,7 +62,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 export const useWebSocket = () => {
   const context = useContext(WebSocketContext);
   if (!context) {
-    throw new Error('useWebSocket must be used within a WebSocketProvider');
+    throw new Error('useWebSocket은 WebSocketProvider 내에서만 사용할 수 있습니다.');
   }
   return context;
 };

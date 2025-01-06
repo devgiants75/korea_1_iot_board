@@ -4,6 +4,7 @@ import com.korit.board_back.common.ApiMappingPattern;
 
 import com.korit.board_back.dto.ResponseDto;
 import com.korit.board_back.dto.auth.request.LoginRequestDto;
+import com.korit.board_back.dto.auth.request.NaverLoginRequestDto;
 import com.korit.board_back.dto.auth.request.SignUpRequestDto;
 import com.korit.board_back.dto.auth.response.LoginResponseDto;
 import com.korit.board_back.dto.auth.response.SignUpResponseDto;
@@ -27,6 +28,7 @@ public class AuthController {
 
     private static final String SIGN_UP_PATH = "/signUp";
     private static final String LOGIN_PATH = "/login";
+    private static final String OAUTH_NAVER_LOGIN = "/login/naver";
 
     @PostMapping(SIGN_UP_PATH)
     public ResponseEntity<ResponseDto<SignUpResponseDto>> signUp(@Valid @RequestBody SignUpRequestDto dto) {
@@ -40,5 +42,11 @@ public class AuthController {
         ResponseDto<LoginResponseDto> response = authService.login(dto);
         HttpStatus status = response.isResult() ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         return ResponseEntity.status(status).body(response);
+    }
+
+    @PostMapping(OAUTH_NAVER_LOGIN)
+    public ResponseEntity<ResponseDto> naverLogin(@RequestBody NaverLoginRequestDto requestDto) {
+        String jwt = authService.loginWithNaver(requestDto.getToken());
+        return ResponseEntity.ok(ResponseDto.setSuccess("로그인 성공", jwt));
     }
 }

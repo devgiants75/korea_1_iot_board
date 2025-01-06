@@ -1,24 +1,36 @@
 package com.korit.board_back.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.korit.board_back.dto.chat.ChatMessageRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
 
 @Component
-public class RedisSubscriber {
+public class RedisSubscriber implements MessageListener {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    public RedisSubscriber(SimpMessagingTemplate messagingTemplate) {
+    public RedisSubscriber(SimpMessagingTemplate messagingTemplate, ObjectMapper objectMapper) {
         this.messagingTemplate = messagingTemplate;
+        this.objectMapper = objectMapper;
     }
 
-    @EventListener
-    public void handleMessage(ChatMessageRequestDto message) {
-        System.out.println("topic 연결" + message);
-        messagingTemplate.convertAndSend("/topic/" + message.getRoomId(), message);
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        try {
+            // Redis 메시지를 ChatMessageRequestDto로 변환
+            String msgBody = new String(message.getBody());
+            ChatMessageRequestDto chatMessage = objectMapper.readValue(msgBody, ChatMessageRequestDto.class);
+
+            System.out.println("Redis 메시지 수신: " + chatMessage);
+
+            // WebSocket 클라이언트로 메시지 브로드캐스트
+            messagingTemplate.convertAndSend("/topic/" + chatMessage.getRoomId(), chatMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
